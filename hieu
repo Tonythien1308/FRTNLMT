@@ -1,0 +1,183 @@
+#include<SoftwareSerial.h>
+//#include<Servo.h>
+
+const int in1 = 10;
+const int in2 = 9;
+const int in3 = 8;
+const int in4 = 7;
+const int enA = 6;
+const int enB = 5;
+
+SoftwareSerial BTSerial(11,12); // TX, RX
+//Servo servo_e;
+
+char val;
+int speed = 120;
+
+void setup() 
+{
+  Serial.begin(9600);
+  BTSerial.begin(9600);
+
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+  pinMode(enA, OUTPUT);
+  pinMode(enB, OUTPUT);
+
+  //servo_e.attach(4);
+  
+  //servo_e.write(85);
+}
+
+void loop() 
+{
+  if(BTSerial.available() > 0)
+  {
+    val = BTSerial.read();
+    Serial.println(val);
+    if(val >= 120 && val <= 180)
+    {
+      speed = val;
+      Serial.println(speed);
+    }
+    if(val == 181)
+    {
+      forward();
+    }
+    else if(val == 182)
+    {
+      backward();
+    }
+    else if(val == 183)
+    {
+      left();
+    }
+    else if(val == 184)
+    {
+      right();
+    }
+    /*else if(val == 186)
+    {
+      n_west();
+    }
+    else if(val == 187)
+    {
+      n_east();
+    }
+    else if(val == 188)
+    {
+      s_east();
+    }
+    else if(val == 189)
+    {
+      s_west();
+    }*/
+    else if(val == 185)
+    {
+      stop();
+    }
+    else
+    {
+      stop();
+    }
+  }
+}
+void forward()
+{
+  Serial.println("U");
+  //servo_e.write(85);
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+  analogWrite(enA, speed);
+  analogWrite(enB, speed);
+}
+void backward()
+{
+  Serial.println("D");
+  //servo_e.write(85);
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  analogWrite(enA, speed);
+  analogWrite(enB, speed);
+}
+void left()
+{
+  Serial.println("L");
+  //servo_e.write(85);
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+  analogWrite(enA, speed);
+  analogWrite(enB, speed);
+}
+void right()
+{
+  Serial.println("R");
+  //servo_e.write(85);
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  analogWrite(enA, speed);
+  analogWrite(enB, speed);
+}
+/*void n_west()
+{
+  Serial.println("E");
+  servo_e.write(110);
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+  analogWrite(enA, speed);
+  analogWrite(enB, speed);
+}
+void n_east()
+{
+  Serial.println("F");
+  //servo_e.write(70);
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+  analogWrite(enA, speed);
+  analogWrite(enB, speed);
+}
+void s_east()
+{
+  Serial.println("G");
+  servo_e.write(70);
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  analogWrite(enA, speed);
+  analogWrite(enB, speed);
+}
+void s_west()
+{
+  Serial.println("H");
+  servo_e.write(110);
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+  analogWrite(enA, speed);
+  analogWrite(enB, speed);
+}*/
+void stop()
+{
+  Serial.println("S");
+  //servo_e.write(85);
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+}
