@@ -1,95 +1,40 @@
-// --- KHAI BÁO BLUETOOTH ---
+#include <Dabble.h>
 #include <SoftwareSerial.h>
-#include <Dabble.h>;
-SoftwareSerial BT(12, 11);
+SoftwareSerial BTSerial(12,11);
 
-// --- KHAI BÁO L298N ---
 int IN1 = 4;
 int IN2 = 3;
 
 int IN3 = 2;
 int IN4 = 1;
 
-char command;   // ký tự nhận từ app
-
 void setup() {
-  // Motor pins
+  Serial.begin(9600);
+  BTSerial.begin(9600);
+  Dabble.begin(BTSerial);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
 
   pinMode(IN3, OUTPUT);
   pinMode(IN4, OUTPUT);
 
-  // Bluetooth
-  BT.begin(9600);
-  //Khoichay Dabble
-  Dabble.begin(BTSerial);
-
-  // Tốc độ PWM mặc định
-  //analogWrite(ENA, 200);
-  //analogWrite(ENB, 200);
-
-  Serial.begin(9600);
-  Serial.println("Bluetooth Car Ready!");
 }
-
 void loop() {
-  //Controller
-  if (BT.available()) {
-    Dabble.processInput();
-    if (GamePad.isUpPressed()) {
-      command='F';
-    }
-
-    else if (GamePad.isDownPressed()) {
-      command='B';
-    }
-
-    else if (GamePad.isLeftPressed()) {
-      command='L';
-    }
-
-    else if (GamePad.isRightPressed()) {
-      command='R';
-    }
-
-    else command='S';
-
-    switch (command) {
-
-      case 'F':  // Tiến
-        forward();
-        //delay(1000);
-        break;
-
-      case 'B':  // Lùi
-        backward();
-        //delay(1000);
-        break;
-
-      case 'L':  // Rẽ trái
-        left();
-        //delay(1000);
-        break;
-
-      case 'R':  // Rẽ phải
-        right();
-        //delay(1000)
-        break;
-
-      case 'S':  // Dừng
-        stopMotors();
-        break;
-
-      // Tăng giảm tốc độ
-      //case '1': setSpeed(120); break;
-      //case '2': setSpeed(160); break;
-      //case '3': setSpeed(200); break;
-      //case '4': setSpeed(255); break;
-    }
+  Dabble.processInput();
+  if (GamePad.isUpPressed()) {
+    Serial.println("UP");
   }
+    else if (GamePad.isDownPressed()){
+    Serial.println("DOWN");
+  }
+  else if (GamePad.isLeftPressed()){
+    Serial.println("L");
+  }
+  else if (GamePad.isRightPressed()){
+    Serial.println("R");
+  }
+  else Serial.println("STOP");
 }
-
 // ====== HÀM ĐIỀU KHIỂN ======
 
 void forward() {
@@ -130,8 +75,3 @@ void stopMotors() {
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
 }
-
-//void setSpeed(int speedVal) {
-  //analogWrite(ENA, speedVal);
-  //analogWrite(ENB, speedVal);
-//}
