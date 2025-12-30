@@ -35,7 +35,7 @@ void loop() {
   }
   else if (GamePad.isRightPressed()){
     Serial.println("R");
-    right()
+    right();
   }
   else stopMotors();
 }
