@@ -23,17 +23,21 @@ void loop() {
   Dabble.processInput();
   if (GamePad.isUpPressed()) {
     Serial.println("UP");
+    forward();
   }
     else if (GamePad.isDownPressed()){
     Serial.println("DOWN");
+    backward();
   }
   else if (GamePad.isLeftPressed()){
     Serial.println("L");
+    left();
   }
   else if (GamePad.isRightPressed()){
     Serial.println("R");
+    right()
   }
-  else Serial.println("STOP");
+  else stopMotors();
 }
 // ====== HÀM ĐIỀU KHIỂN ======
 
