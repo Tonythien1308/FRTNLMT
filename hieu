@@ -1,3 +1,5 @@
+///SET UP ARDUINO
+
 #include <Dabble.h>
 #include <SoftwareSerial.h>
 SoftwareSerial BTSerial(12,11);
