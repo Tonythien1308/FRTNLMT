@@ -1,0 +1,101 @@
+#define CUSTOM_SETTINGS
+#define INCLUDE_GAMEPAD_MODULE
+#include <Dabble.h>
+#include <SoftwareSerial.h>
+SoftwareSerial BTSerial(12,11);
+
+int banhTrai1 = 1;
+int banhTrai2 = 2;
+
+int banhPhai1 = 3;
+int banhPhai2 = 4;
+
+void setup() {
+  Serial.begin(9600);
+  BTSerial.begin(9600);
+  Dabble.begin(BTSerial);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+
+}
+void loop() {
+  Dabble.processInput();
+  int x_axis = GamePad.getXaxisData();
+  Serial.print("x_axis: ");
+  Serial.print(x_axis);
+  Serial.print('\t');
+
+  int y_axis = GamePad.getYaxisData();
+  Serial.print("y_axis: ");
+  Serial.println(y_axis);
+  Serial.println();
+
+  if (abs(x_axis) < 2 and abs(y_axis) < 2) {
+    Serial.println("Stop");
+    stopMotors();
+  }
+
+  int leftWheel=0;
+  int rightWheel=0;
+
+  if(x_axis == 0){
+    leftWheel=rightWheel=y_axis;
+  }
+  else{
+    leftWheel = y_axis+x_axis;
+    rightWheel = y_axis-x_axis;
+  }
+  
+  bool isLeftWheelGoBack= leftWheel<0;
+  bool isRightWheelGoBack= rightWheel<0;
+
+  int speedLeft=map(leftWheel,0,7,0,255);
+  int speedRight=map(rightWheel,0,7,0,255);
+
+  if 
+  
+
+}
+// ====== HÀM ĐIỀU KHIỂN ======
+
+void control() {
+  analogWrite(banhTrai1, speedLeft);
+  digitalWrite(banhTrai2,LOW);
+
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void backward() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void left() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void right() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void stopMotors() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+}
