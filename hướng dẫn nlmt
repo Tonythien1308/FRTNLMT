@@ -1,8 +1,36 @@
-///SET UP ARDUINO
+'''
+PHẦN 1 — CHUẨN BỊ PHẦN CỨNG
+———————————————————
+- Arduino (Nên dùng Arduino Uno).
+- Module Bluetooth (Thường là HC-05 hoặc HC-06).
+- Driver động cơ (phổ biến nhất nhất là L298N).
+- 2 động cơ DC + bánh xe
+- Pin cấp nguồn cho động cơ (7–12V tùy loại)
+Dây nối (jumper dây đực-đực, đực-cái)
+————————————————————
+PHẦN 2 — CÀI PHẦN MỀM
+————————————————————
+Cài Arduino IDE
+Tải từ website chính thức của Arduino.
+Link hướng dẫn: https://www.youtube.com/watch?v=cd04o5yqSAU
+
+Cài thư viện Dabble
+Trong Arduino IDE:
+Sketch → Include Library → Manage Libraries
+Tìm “Dabble”
+Cài thư viện của STEMpedia.
+
+Cài app Dabble trên điện thoại
+Vào CH Play / App Store
+Tìm “Dabble” của STEMpedia
+Cài đặt.
+'''
+
+/// ĐOẠN CODE DƯỚI ĐÂY CHỈ MANG TÍNH CHẤT THAM KHẢO, CÁC LỚP CÓ THỂ ĐIỀU CHỈNH THEO Ý MUỐN.
 
 #include <Dabble.h>
 #include <SoftwareSerial.h>
-SoftwareSerial BTSerial(12,11);
+SoftwareSerial BTSerial(12,11); // TX,RX
 
 int IN1 = 4;
 int IN2 = 3;
