@@ -38,43 +38,61 @@ void loop() {
     stopMotors();
   }
 
-  int leftWheel=0;
-  int rightWheel=0;
+  int leftWheel = 0;
+  int rightWheel = 0;
 
   if(x_axis == 0){
-    leftWheel=rightWheel=y_axis;
+    leftWheel = rightWheel = y_axis;
   }
   else{
-    leftWheel = y_axis+x_axis;
-    rightWheel = y_axis-x_axis;
+    leftWheel = y_axis + x_axis;
+    rightWheel = y_axis - x_axis;
   }
   
-  bool isLeftWheelGoBack= leftWheel<0;
-  bool isRightWheelGoBack= rightWheel<0;
+  bool isLeftWheelGoBack = leftWheel<0;
+  bool isRightWheelGoBack = rightWheel<0;
 
-  int speedLeft=map(leftWheel,0,7,0,255);
-  int speedRight=map(rightWheel,0,7,0,255);
+  if(leftWheel==rightWheel){
+    int speedLeft = map(leftWheel,0,7,0,255);
+    int speedRight = map(rightWheel,0,7,0,255);
+    forward(speedRight,speedLeft);
+  }
 
-  if 
+  else if(isLeftWheelGoBack){
+    leftWheel=-leftWheel;
+    int speedLeft = map(leftWheel,0,7,0,255);
+    int speedRight = map(rightWheel,0,7,0,255);
+    Lmove(speedLeft,speedRight);
+  }
+
+  else if(isRightWheelGoBack){
+    rightWheel=-rightWheel;
+    int speedLeft = map(leftWheel,0,7,0,255);
+    int speedRight = map(rightWheel,0,7,0,255);
+    Rmove(speedRight,speedLeft);
   
 
 }
 // ====== HÀM ĐIỀU KHIỂN ======
 
-void control() {
-  analogWrite(banhTrai1, speedLeft);
-  digitalWrite(banhTrai2,LOW);
-
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
+void Lmove(int speedLeft, int speedRight) {
+  analogWrite(banhTrai1, 0);
+  analogWrite(banhTrai2, speedLeft);
+  analogWrite(banhPhai1, speedRight);
+  analogWrite(banhPhai2, 0);
 }
 
-void backward() {
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, HIGH);
-
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
+void Rmove(int speedRight, int speedLeft) {
+  analogWrite(banhPhai1, 0);
+  analogWrite(banhPhai2, speedRight);
+  analogWrite(banhTrai1, speedLeft);
+  analogWrite(banhTrai2, 0);
+}
+void forward(int speedRight, int speedLeft) {
+  analogWrite(banhPhai1, speedRight);
+  analogWrite(banhPhai2, 0);
+  analogWrite(banhTrai1, speedLeft);
+  analogWrite(banhTrai2, 0);
 }
 
 void left() {
